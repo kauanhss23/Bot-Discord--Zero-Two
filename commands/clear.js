@@ -9,7 +9,7 @@ exports.run = async (client, message, args) => {
   const deleteCount = parseInt(args[0], 10);
   if (!deleteCount || deleteCount < 1 || deleteCount > 99)
     return message.reply(
-      "informe um número de até 99 mensagens para serem excluídas!"
+      "informe um número de até *99 mensagens* para serem excluídas!"
     );
 
   const fetched = await message.channel.messages.fetch({

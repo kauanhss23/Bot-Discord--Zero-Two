@@ -1,3 +1,11 @@
 {
-    "prefix" : "--"
+    "token" : "",
+    "prefix" : "--",
+    "guild":{
+        "channel" : "744753822269964300",
+        "guild" : "744756656038215711",
+        "role1" : "───── Users ─────",
+        "role2" : "Verified"
+    }
+    
 }

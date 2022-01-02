@@ -11,6 +11,7 @@ app.listen(process.env.PORT); // Recebe solicitações que o deixa online
 const Discord = require("discord.js"); //Conexão com a livraria Discord.js
 const client = new Discord.Client(); //Criação de um novo Client
 const config = require("./json/config.json"); //Pegando o prefixo do bot para respostas de comandos
+const { token } = require("./json/config.json"); //pegando token no json
 
 //pasta comandos
 client.on('message', message => {
@@ -48,50 +49,7 @@ atividades.length]}`, {
 client.user
    .setStatus("online") //idle, dnd, online, invisible
    .catch(console.log);  
-console.log("Estou online Katsuo <3")    
-});
-
-//comando help
-client.on('message', message => {
-    let prefix = "--";
-    if(message.content.startsWith(prefix + "help")){
-        const embed = new Discord.MessageEmbed()
-        .setColor('#7c2ae8')
-        .setTitle('Comandos da Zero Two')
-        .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-        .setDescription(`Em que posso ajudar **${message.author.tag}**?`)
-        .addFields(
-          { name: ':arrow_right: --ping', value: 'Comando para saber o ping do bot' },
-          { name: ':arrow_right: --uptime', value: 'Comando para saber a quanto tempo o bot está online' },
-          { name: ':arrow_right: --criador', value: 'Informações sobre o criador' },
-          { name: ':arrow_right: --clear [Qtd de menssagens à ser apagadas]', value: 'Comando apagar mensagens' },
-        )
-        .setImage("https://media.giphy.com/media/vg1tbA9Q4aJbX66riI/giphy.gif")
-        .setFooter('Zero Two', 'https://i.imgur.com/MnAqBjF.jpg')
-        message.channel.send(embed)
-    }
-})
-
-//Boas Vindas
-client.on("guildMemberAdd", async (member) => { 
-
-  let guild = await client.guilds.cache.get("744753822269964300");
-  let channel = await client.channels.cache.get("744756656038215711");
-  let emoji = await member.guild.emojis.cache.find(emoji => emoji.name === 'blush_eoto_002');
-  if (guild != member.guild) {
-    return console.log("Até um outro dia!");
-   } else {
-      let embed = await new Discord.MessageEmbed()
-      .setColor("#7c2ae8")
-      .setAuthor(member.user.tag, member.user.displayAvatarURL())
-      .setTitle(`${emoji} Boas-vindas!`)
-      .setImage("https://media.giphy.com/media/YJKRUy32M3IUhXImrz/giphy.gif")
-      .setDescription(`**${member.user}**, bem-vindo(a) ao servidor **${guild.name}**! Atualmente estamos com **${member.guild.memberCount} membros**, espero que se divirta! :heart:`)
-      .setThumbnail(member.user.displayAvatarURL({ dynamic: true, format: "png", size: 1024 }))
-      .setTimestamp();
-
-    channel.send(embed);
-  }
+console.log("Estou online Katsuo")    
 });
 
 //menssagens pré definidas
@@ -108,20 +66,9 @@ client.on('message', message => {
 
 //autorole
 client.on('guildMemberAdd', member => {
-    console.log('User @' + member.user.tag + ' has joined the server!');
-    var role = member.guild.roles.cache.find(role => role.name == "───── Users ─────", "Verified")
+    console.log('User @' + member.user.tag + 'entrou no servidor!');
+    var role = member.guild.roles.cache.find(role => role.name == config.guild.role1, config.guild.role2)
     member.roles.add(role);
 });
 
-//ban 
-client.on('message', message =>{
-  if(message.content.startsWith("--ban")){
-    if (!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("Sem permissão necessária!")
-    let User = message.guild.member(message.mentions.users.first()) || message.guild.members.get(args[0])
-    if (!User) return message.channel.send("Usuário inválido")
-    if (User.hasPermission("BAN_MEMBERS")) return message.reply("Sem permissão necessária!")
-    User.ban()
-} 
-});
-
-client.login("");//token
+client.login(token);//token
